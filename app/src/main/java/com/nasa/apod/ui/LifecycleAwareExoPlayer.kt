@@ -13,14 +13,26 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 
 
-class LifecycleAwareExoPlayer(private val appContext: Context, private var exoPlayer: ExoPlayer? = null) :
+class LifecycleAwareExoPlayer(
+    private val appContext: Context,
+    private var exoPlayer: ExoPlayer? = null,
+    private val url: String = "https://storage.googleapis.com/exoplayer-test-media-0/play.mp3"
+) :
     LifecycleObserver {
 
+    private var isPlayerReady: Boolean = false
+    private var playbackPosition: Long = 0
+    private var currentWindow: Int = 0
+
     private fun initializePlayer() {
-        val uri = Uri.parse("https://storage.googleapis.com/exoplayer-test-media-0/play.mp3")
+        val uri = Uri.parse(url)
         val mediaSource = buildMediaSource(uri)
-        exoPlayer?.prepare(mediaSource)
+        exoPlayer?.apply {
+            prepare(mediaSource)
+            playWhenReady = isPlayerReady
+        }
     }
+
 
     private fun buildMediaSource(uri: Uri?): MediaSource {
         val dataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(appContext, "exoplayer-codelab")
@@ -30,11 +42,11 @@ class LifecycleAwareExoPlayer(private val appContext: Context, private var exoPl
 
     private fun releasePlayer() {
         exoPlayer?.apply {
-//            playWhenReady = playWhenReady;
-//            playbackPosition = currentPosition;
-//            currentWindow = currentWindowIndex;
+            isPlayerReady = playWhenReady
+            playbackPosition = currentPosition
+            currentWindow = currentWindowIndex
             release()
-            exoPlayer = null;
+            exoPlayer = null
         }
     }
 

@@ -7,11 +7,8 @@ import retrofit2.HttpException
 import retrofit2.http.GET
 import retrofit2.http.Query
 import java.io.IOException
-import java.lang.Throwable
 
 interface DataRepository {
-
-    suspend fun getTodayPhoto(): Result<Apod>
 
     suspend fun getPhotoByDate(date: String): Result<Apod>
 }
@@ -23,16 +20,6 @@ interface API {
 }
 
 class RemoteRepository(private val api: API) : DataRepository {
-
-    override suspend fun getTodayPhoto(): Result<Apod> {
-        return try {
-            Result.Success(withContext(Dispatchers.IO) {
-                api.getPhoto()
-            })
-        } catch (ex: Exception) {
-            Result.Failure(ex)
-        }
-    }
 
     override suspend fun getPhotoByDate(date: String): Result<Apod> {
         return try {

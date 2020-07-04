@@ -28,10 +28,11 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.0"
             tools:src="@tools:sample/backgrounds/scenic"
-            tools:visibility="gone" />
+            tools:visibility="visible" />
 
         <com.google.android.exoplayer2.ui.PlayerView
             android:id="@+id/pv_exo"
+            android:visibility="gone"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -69,7 +70,7 @@
             app:layout_constraintEnd_toStartOf="@id/iv_control"
             app:layout_constraintHeight_max="200dp"
             app:layout_constraintStart_toStartOf="parent"
-            tools:text="This is sit" />
+            tools:text="This is desc" />
 
         <ImageView
             android:id="@+id/iv_calendar"
